@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="Scripts/jquery-1.10.2.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var list = $('#empList');
+            $('#btnGetEmployeesJsonp').click(function () {
+                list.empty();
+                $.ajax({
+                    type: 'GET',
+                    url: 'http://localhost:61175/webapi/employees',
+                    dataType: 'jsonp',
+                    success: function(data) {
+                        $.each(data,
+                            function (index,value) {
+                                var name = value.employeeId + ' - ' + value.employeeName;
+                                list.append('<li>' + name + '</li>');
+                            });
+                    }
+                });
+            });
+            $('#btnGetEmployeesJson').click(function () {
+                list.empty();
+                $.ajax({
+                    type: 'GET',
+                    url: 'http://localhost:61175/webapi/employees',
+                    dataType: 'json',
+                    success: function (data) {
+                        $.each(data,
+                            function (index, value) {
+                                var name = value.employeeId + ' - ' + value.employeeName;
+                                list.append('<li>' + name + '</li>');
+                            });
+                    }
+                });
+            });
+            $('#btnClearList').click(function() {
+                list.empty();
+            });
+        })
+    </script>
+</head>
+<body>
+    <input id="btnGetEmployeesJsonp" type="button" value="GetEmployees With JSONP" />
+    <input id="btnGetEmployeesJson" type="button" value="GetEmployees With JSON" />
+    <input id="btnClearList" type="button" value="ClearList" />
+    <ul id="empList"></ul>
+</body>
+</html>
